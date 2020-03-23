@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const authRouter = require('./routes/admin/auth');
-const productsRouter = require('./routes/admin/products');
+const adminProductsRouter = require('./routes/admin/products');
+const productsRouter = require('./routes/products');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cookieSession({
 }));
 
 app.use(authRouter);    //pobieranie routera z pliku auth
+app.use(adminProductsRouter);
 app.use(productsRouter);
 
 const PORT = 3000;
