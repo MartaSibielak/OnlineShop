@@ -11,7 +11,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));     //dont need to implement in in our method anymore, its created automaticlly - middleware
 app.use(cookieSession({
-    keys: ['']
+    keys: ['ggfhfhg']
 }));
 
 app.use(authRouter);    //pobieranie routera z pliku auth

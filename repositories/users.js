@@ -28,15 +28,14 @@ class UsersRepository extends Repository{
         const buf = await scrypt(attrs.password, salt, 64);
 
         const records = await this.getAll();
-        const record = {
+        records.push({
             ...attrs,
             password: `${buf.toString('hex')}.${salt}`
-        };
-        records.push(record);
+        });
 
         await this.writeAll(records);
 
-        return record;
+        return records;
     }
 }
 
