@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1 #{title}
+    //ul.list-group
+    //    each article, i in articles
+    //        li.list-group-item
+    //            A(href="/articles/"+article._id)= article.title
+
+
+    //.card(style='width: 18rem;')
+    //    each article, i in articles
+    //        img.card-img-top(src='...', alt='...')
+    //        .card-body
+    //            h5=article.title
+    //            p.card-text=article.body
+    //            a.btn.btn-primary(href='#') Add to cart
+
+    .row.row-cols-1.row-cols-md-3
+        each article, i in articles
+            .col.mb-4
+                .card
+                    img.card-img-top(src='http://localhost:3001/'+article.imagePath, alt='...', class='image-responsive')
+                    .card-body
+                        h5=article.title
+                        .price=article.price
+                        p=article.body
+                        a.btn.btn-primary(href='/articles/buy/'+article._id) Add to cart
+

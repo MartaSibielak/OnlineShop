@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST', action='/articles/add', enctype='multipart/form-data')
+        #form-group
+            label Title:
+            input.form-control(name='title', type='text')
+        #form-group
+            label Price:
+            input.form-control(name='price', type='text')
+        #form-group
+            label Body:
+            textarea.form-control(name='body')
+        br
+
+        #form-group
+            label(for='exampleFormControlFile1') Example file input
+            input#exampleFormControlFile1.form-control-file(type='file' name='image')
+        br
+        input.btn.btn-primary(type='submit', value='Submit')
