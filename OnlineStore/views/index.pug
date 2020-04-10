@@ -1,29 +1,54 @@
 extends layout
 
 block content
-    h1 #{title}
-    //ul.list-group
-    //    each article, i in articles
-    //        li.list-group-item
-    //            A(href="/articles/"+article._id)= article.title
+
+    // Page Content
 
 
-    //.card(style='width: 18rem;')
-    //    each article, i in articles
-    //        img.card-img-top(src='...', alt='...')
-    //        .card-body
-    //            h5=article.title
-    //            p.card-text=article.body
-    //            a.btn.btn-primary(href='#') Add to cart
+    .col-lg-3
+       h1.my-4 Amaze On
 
-    .row.row-cols-1.row-cols-md-3
-        each article, i in articles
-            .col.mb-4
-                .card
-                    img.card-img-top(src='http://localhost:3001/'+article.imagePath, alt='...', class='image-responsive')
-                    .card-body
-                        h5=article.title
-                        .price=article.price
-                        p=article.body
-                        a.btn.btn-primary(href='/articles/buy/'+article._id) Add to cart
+    // /.col-lg-3
+    .col-lg-9
+       #carouselExampleIndicators.carousel.slide.my-4(data-ride='carousel')
+           ol.carousel-indicators
+               li.active(data-target='#carouselExampleIndicators', data-slide-to='0')
+               li(data-target='#carouselExampleIndicators', data-slide-to='1')
+               li(data-target='#carouselExampleIndicators', data-slide-to='2')
+           .carousel-inner(role='listbox')
+               .carousel-item.active
+                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='First slide')
+               .carousel-item
+                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='Second slide')
+               .carousel-item
+                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='Third slide')
+           a.carousel-control-prev(href='#carouselExampleIndicators', role='button', data-slide='prev')
+               span.carousel-control-prev-icon(aria-hidden='true')
+               span.sr-only Previous
+           a.carousel-control-next(href='#carouselExampleIndicators', role='button', data-slide='next')
+               span.carousel-control-next-icon(aria-hidden='true')
+               span.sr-only Next
+
+
+       h1 #{title}
+       br
+
+       .row.row-cols-1.row-cols-md-3
+            each article, i in articles
+                .col.mb-4
+                    .card
+                        img.card-img-top(src='data:image/png;base64,' +article.imagePath+'', alt='...', class='image-responsive')
+                        .card-body
+                            h5=article.title
+                            .price=article.price
+                            p=article.body
+                            //form(method='POST', action='/articles/cart')
+                            //    input(hidden='', value='#{article._id}', name='productId')
+                            //    a.btn.btn-primary Add to cart
+
+                            form(action='/articles/cart/:id', method='POST')
+                                input(hidden='', value=article._id, name='productId')
+                                a.btn.btn-primary(href='/articles/cart/'+article._id+'', type='button' class='mx-2')
+                                    i.fa.fa-shopping-cart
+                                    |  Add to cart
 

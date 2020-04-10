@@ -3,8 +3,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const flash = require('connect-flash');
-const { check, validationResult } = require('express-validator');
 const config = require('./config/database');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
@@ -29,7 +27,8 @@ const app = express();
 
 
 //bring in article models
-let Article = require('./models/article');
+let article = require('./models/article');
+
 
 //load view engine
 app.set('views',path.join(__dirname, 'views'));
@@ -81,12 +80,25 @@ app.get('*', function (req, res, next) {
 
 //home router
 app.get('/', function(req, res){
-    Article.find({}, function (err, articles) {
+    article.find({}, function (err, articles) {
         if (err){
             console.log(err)
         }else {
             res.render('index', {
-                title: 'Article',
+                title: 'Products',
+                articles: articles
+            })
+        }
+    });
+});
+
+app.get('/articles/edit', function (req, res) {
+    article.find({}, function (err, articles) {
+        if (err){
+            console.log(err)
+        }else {
+            res.render('article', {
+                title: 'Admin edit panel',
                 articles: articles
             })
         }
@@ -94,11 +106,33 @@ app.get('/', function(req, res){
 });
 
 
+app.get('/articles/cart/:id', function (req, res) {
+    article.find({}, function (err, articles) {
+        if (err){
+            console.log(err)
+        }else {
+            res.render('cart', {
+                title: 'Cart',
+                articles: articles,
+                id: article._id
+            })
+        }
+    });
+});
+
+app.post('/articles/cart/:id', function(req, res){
+    console.log(article._id);
+
+    res.send('product added to cart');
+});
+
 //route files
 let articles = require('./routes/articles');
 let users = require('./routes/users');
+let cartsRouter = require('./routes/carts');
 app.use('/articles', articles);
 app.use('/users', users);
+app.use('/articles/cart', cartsRouter);
 
 
 

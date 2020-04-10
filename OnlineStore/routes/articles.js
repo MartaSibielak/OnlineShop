@@ -94,22 +94,22 @@ router.get('/:id', function (req,res) {
     });
 });
 
-//add to cart
-router.get('/buy/:id', function (req,res,next) {
-    let productId = req.params.id;
-    // let cart = new Cart(req.session.cart ? req.session.cart : {});
-
-    Article.findById(productId, function (err, article) {
-        if (err){
-            return res.redirect('/');
-        }else {
-            cart.add(article, article.id);
-            req.session.cart = cart;
-            console.log(req.session.cart);
-            res.redirect('/');
-        }
-    });
-});
+// //add to cart
+// router.get('/buy/:id', function (req,res,next) {
+//     let productId = req.params.id;
+//     // let cart = new Cart(req.session.cart ? req.session.cart : {});
+//
+//     Article.findById(productId, function (err, article) {
+//         if (err){
+//             return res.redirect('/');
+//         }else {
+//             cart.add(article, article.id);
+//             req.session.cart = cart;
+//             console.log(req.session.cart);
+//             res.redirect('/');
+//         }
+//     });
+// });
 
 
 module.exports = router;

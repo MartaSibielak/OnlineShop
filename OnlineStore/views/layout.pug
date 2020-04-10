@@ -1,15 +1,23 @@
 doctype html
 html
     head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(name='description', content='')
+        meta(name='author', content='ja')
         title Online Store
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
         link(rel='stylesheet' href='/css/style.css')
         script(src='https://kit.fontawesome.com/e0a9102bf5.js', crossorigin='anonymous')
 
 
+
+
         body
+            // Navigation
             nav.navbar.navbar-expand-md.navbar-dark.bg-dark
                 a.navbar-brand(href='#') Online Store
+                img.image(src='../../public/images/Amazon_logo.png')
                 button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
                     span.navbar-toggler-icon
                 #navbarsExampleDefault.collapse.navbar-collapse
@@ -19,11 +27,13 @@ html
                                 | Home
                                 span.sr-only (current)
                         li.nav-item
-                            a.nav-link(href='articles/add') Add article
+                            a.nav-link(href='/articles/add') Add article
+                        li.nav-item
+                            a.nav-link(href='/articles/edit') Edit article
                     ul.nav.navbar-nav.navbar-right
                         if user
                             li.nav-item
-                                a.nav-link(href='/cart') Cart &nbsp;
+                                a.nav-link(href='/articles/cart') Cart &nbsp;
                                     i.fas.fa-shopping-basket(aria-hidden='true')
                             li.nav-item
                                 a.nav-link(href='/users/logout') Logout &nbsp;
@@ -35,6 +45,7 @@ html
                             li.nav-item
                                 a.nav-link(href='/users/login') Login &nbsp;
                                     i.fas.fa-sign-in-alt
+
             .container
                 != messages('message', locals)
                 if errors

@@ -1,13 +1,19 @@
 extends layout
 
 block content
-    form(method='POST', action='/articles/buy')
+    h1 #{title}
+    br
+
     each article, i in articles
-        h1=article.title
-        h5 Written by #{article.price}
-        p=article.body
-        hr
-        a.btn.btn-default(href='/articles/edit/'+article._id) Edit
-        a.btn.btn-danger.delete-article(href='#', data-id=article._id) Delete
+        ul.list-group
+            li.list-group-item.d-flex.justify-content-between.align-items-center
+                | #{article.title}
+                | #{article.price}
+
+                ul.nav.justify-content-end
+                    form(action='/articles/cart/:id', method='POST')
+                        input(hidden='', value=article._id, name='productId')
+                        a.button.btn.btn-warning(href='/articles/edit/'+article.id+'' type='button' class='mx-2') Edit
+                        button.btn.btn-danger(type='button') Delete
 
 
