@@ -8,6 +8,8 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
 
 
+const Cart = require('./models/cart');
+
 
 mongoose.connect(config.database);
 let db = mongoose.connection;
@@ -34,6 +36,8 @@ let article = require('./models/article');
 app.set('views',path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use('/images', express.static('images'));
+
 //body parser middleware
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,14 +48,27 @@ app.use(bodyParser.json());
 ///set public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//express session middleware
+//
 app.use(session({
     secret: 'secretkey',
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    cookie: { maxAge: 180 * 60 * 1000 }
-}));
+    cookie: { maxAge: 180 * 60 * 1000 }}),
+    function(req,res, next){
+    res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
+    next();
+});
+
+// //express session middleware
+// app.use(session({
+//     secret: 'secretkey',
+//     resave: true,
+//     saveUninitialized: true,
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//     cookie: { maxAge: 180 * 60 * 1000 }
+// }));
 
 // //express authentication ...
 // app.use(function (req, res, next) {
@@ -92,38 +109,30 @@ app.get('/', function(req, res){
     });
 });
 
-app.get('/articles/edit', function (req, res) {
-    article.find({}, function (err, articles) {
+
+
+//add to cart
+app.get('/articles/cart/:id', function (req,res) {
+    let productId = req.params.id;
+    let cart = new Cart(req.session.cart ? req.session.cart : {items: {}});
+
+    article.findById(productId, function (err, article) {
         if (err){
-            console.log(err)
-        }else {
-            res.render('article', {
-                title: 'Admin edit panel',
-                articles: articles
-            })
+            return res.redirect('/');
         }
-    });
+        cart.add(article, article.id);
+        req.session.cart = cart;
+        console.log(req.session.cart);
+        res.redirect('/cart');
+    })
 });
 
-
-app.get('/articles/cart/:id', function (req, res) {
-    article.find({}, function (err, articles) {
-        if (err){
-            console.log(err)
-        }else {
-            res.render('cart', {
-                title: 'Cart',
-                articles: articles,
-                id: article._id
-            })
-        }
-    });
-});
-
-app.post('/articles/cart/:id', function(req, res){
-    console.log(article._id);
-
-    res.send('product added to cart');
+app.get('/cart', function (req, res) {
+    if (!req.session.cart){
+        return res.render('shopping_cart', {articles: null});
+    }
+    let cart = new Cart(req.session.cart);
+    res.render('shopping_cart', {articles: cart.generateArray(), totalPrice: cart.totalPrice})
 });
 
 //route files

@@ -56,6 +56,27 @@ router.post('/add',  upload.single('image'),
         }
     });
 
+router.get('/articles/edit', async function (req, res) {
+    const article = await Article.find({}, function (err, article) {
+        if (err){
+            console.log(err)
+        }else{
+            return article;
+        }
+    });
+    res.render('article', {
+        title: 'Admin edit panel',
+        articles: article
+    });
+});
+
+// router.get('/', middleWare(async (req, res, next) => {
+//     const db = await MONGO.connect(url);
+//     const MyCollection = db.collection('MyCollection');
+//     const result = await MyCollection.find(query).toArray();
+//     res.send(result);
+// }))
+
 
 //load edit form
 router.get('/edit/:id', function (req,res) {
@@ -89,27 +110,26 @@ router.post('/edit/:id', function (req, res) {
 router.get('/:id', function (req,res) {
     Article.findById(req.params.id, function (err, article) {
         res.render('article', {
-            article: article
+            title: 'show one article',
+            articles: article
         })
     });
 });
 
-// //add to cart
-// router.get('/buy/:id', function (req,res,next) {
-//     let productId = req.params.id;
-//     // let cart = new Cart(req.session.cart ? req.session.cart : {});
-//
-//     Article.findById(productId, function (err, article) {
-//         if (err){
-//             return res.redirect('/');
-//         }else {
-//             cart.add(article, article.id);
-//             req.session.cart = cart;
-//             console.log(req.session.cart);
-//             res.redirect('/');
-//         }
-//     });
-// });
+router.get('/delete/:id', function (req, res){
+    let article = {};
+
+    let query = {_id:req.params.id};
+
+    Article.deleteOne(query, article, function (err) {
+        if (err){
+            console.log(err);
+        }else {
+            req.flash('success', 'Article Deleted');
+            res.redirect('/');
+        }
+    });
+});
 
 
 module.exports = router;

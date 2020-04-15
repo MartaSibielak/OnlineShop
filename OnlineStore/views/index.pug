@@ -17,7 +17,7 @@ block content
                li(data-target='#carouselExampleIndicators', data-slide-to='2')
            .carousel-inner(role='listbox')
                .carousel-item.active
-                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='First slide')
+                   img.d-block.img-fluid(src='/Amazon_logo.png', alt='First slide')
                .carousel-item
                    img.d-block.img-fluid(src='http://placehold.it/900x350', alt='Second slide')
                .carousel-item
@@ -46,9 +46,9 @@ block content
                             //    input(hidden='', value='#{article._id}', name='productId')
                             //    a.btn.btn-primary Add to cart
 
-                            form(action='/articles/cart/:id', method='POST')
-                                input(hidden='', value=article._id, name='productId')
-                                a.btn.btn-primary(href='/articles/cart/'+article._id+'', type='button' class='mx-2')
+                            form(action='article/cart', method='POST')
+                                input(hidden='', value=article.id, name='articleId')
+                                a.btn.btn-primary(href='articles/cart/'+article.id+'', type='button', class='mx-2')
                                     i.fa.fa-shopping-cart
                                     |  Add to cart
 

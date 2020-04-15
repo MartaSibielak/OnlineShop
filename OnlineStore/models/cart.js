@@ -1,23 +1,48 @@
-// module.exports = function Cart(oldCart) {
-//     this.article = oldCart.articles || {};
-//     this.totalQty = oldCart.totalQty || 0;
-//     this.totalPrice = oldCart.totalPrice;
-//
-//     this.add = function (article, id) {
-//         let storedItem = this.article[id];
-//         if (!storedItem){
-//             storedItem = this.article[id] = {articles: article, qty: 0, price: 0};
-//         }
-//         storedItem.qty++;
-//         storedItem.author = storedItem.article.author * storedItem.qty;
-//         this.totalQty++;
-//         this.totalPrice += storedItem.article.author;
-//     };
-//     this.generateArray = function () {
-//         let arr = [];
-//         for (let id in this.article){
-//             arr.push(this.article[id]);
-//         }
-//         return arr;
-//     }
-// };
+let mongoose = require('mongoose');
+
+let cartSchema = mongoose.Schema({
+    id: {
+        type: String,
+        required: true
+    },
+    items: [
+        {
+            id:{
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                required:true
+            }
+        }
+    ]
+});
+
+let Article = module.exports = mongoose.model('Cart', cartSchema);
+
+
+module.exports = function Cart(oldCart) {
+    this.items = oldCart.items || {};
+    this.totalQty = oldCart.totalQty || 0;
+    this.totalPrice = oldCart.totalPrice || 0;
+
+    this.add = function (item, id) {
+        let storedItem = this.items[id];
+        if (!storedItem){
+            storedItem = this.items[id] = {item: item, qty: 0, price:0}
+        }
+        storedItem.qty++;
+        storedItem.price = storedItem.item.price * storedItem.qty;
+        this.totalQty++;
+        this.totalPrice += storedItem.item.price;
+    };
+
+    this.generateArray = function() {
+        let arr = [];
+        for(let id in this.items){
+            arr.push(this.items[id]);
+        }
+        return arr;
+    };
+};
