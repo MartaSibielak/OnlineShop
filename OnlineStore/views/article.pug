@@ -7,11 +7,11 @@ block content
     each article, i in articles
         ul.list-group
         li.list-group-item.d-flex.justify-content-between.align-items-center
-            a=article.title
-            a=article.price
+            p=article.title
+            p=article.price
 
             ul.nav.justify-content-end
-                form(action='/cart/:id', method='POST')
+                form(action='cart/cart/:id', method='POST')
                     input(hidden='', value=article._id, name='productId')
                     a.button.btn.btn-warning(href='/articles/edit/'+article.id+'' type='button' class='mx-2') Edit
                     a.button.btn.btn-danger(href='/articles/delete/'+article.id+'' type='button') Delete

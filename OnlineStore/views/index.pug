@@ -42,13 +42,10 @@ block content
                             h5=article.title
                             .price=article.price
                             p=article.body
-                            //form(method='POST', action='/articles/cart')
-                            //    input(hidden='', value='#{article._id}', name='productId')
-                            //    a.btn.btn-primary Add to cart
 
-                            form(action='article/cart', method='POST')
+                            form(action='/cart/cart'+article.id+'', method='POST')
                                 input(hidden='', value=article.id, name='articleId')
-                                a.btn.btn-primary(href='articles/cart/'+article.id+'', type='button', class='mx-2')
+                                a.btn.btn-primary(href='cart/cart/'+article.id+'', type='button', class='mx-2')
                                     i.fa.fa-shopping-cart
                                     |  Add to cart
 

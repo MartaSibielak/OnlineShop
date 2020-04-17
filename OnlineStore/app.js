@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -6,9 +7,6 @@ const session = require('express-session');
 const config = require('./config/database');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
-
-
-const Cart = require('./models/cart');
 
 
 mongoose.connect(config.database);
@@ -24,12 +22,6 @@ db.on('error', function (err) {
     console.log(err)
 });
 
-    //init app
-const app = express();
-
-
-//bring in article models
-let article = require('./models/article');
 
 
 //load view engine
@@ -48,34 +40,17 @@ app.use(bodyParser.json());
 ///set public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//
 app.use(session({
-    secret: 'secretkey',
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    cookie: { maxAge: 180 * 60 * 1000 }}),
+        secret: 'secretkey',
+        resave: true,
+        saveUninitialized: true,
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        cookie: { maxAge: 180 * 60 * 1000 }}),
     function(req,res, next){
-    res.locals.login = req.isAuthenticated();
-    res.locals.session = req.session;
-    next();
-});
-
-// //express session middleware
-// app.use(session({
-//     secret: 'secretkey',
-//     resave: true,
-//     saveUninitialized: true,
-//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-//     cookie: { maxAge: 180 * 60 * 1000 }
-// }));
-
-// //express authentication ...
-// app.use(function (req, res, next) {
-//     res.locals.login = req.isAuthenticated();
-//     res.locals.session = req.session;
-//     next();
-// });
+        res.locals.login = req.isAuthenticated();
+        res.locals.session = req.session;
+        next();
+    });
 
 //express messages middleware
 app.use(require('connect-flash')());
@@ -95,53 +70,19 @@ app.get('*', function (req, res, next) {
     next();
 });
 
-//home router
-app.get('/', function(req, res){
-    article.find({}, function (err, articles) {
-        if (err){
-            console.log(err)
-        }else {
-            res.render('index', {
-                title: 'Products',
-                articles: articles
-            })
-        }
-    });
-});
 
 
 
-//add to cart
-app.get('/articles/cart/:id', function (req,res) {
-    let productId = req.params.id;
-    let cart = new Cart(req.session.cart ? req.session.cart : {items: {}});
-
-    article.findById(productId, function (err, article) {
-        if (err){
-            return res.redirect('/');
-        }
-        cart.add(article, article.id);
-        req.session.cart = cart;
-        console.log(req.session.cart);
-        res.redirect('/cart');
-    })
-});
-
-app.get('/cart', function (req, res) {
-    if (!req.session.cart){
-        return res.render('shopping_cart', {articles: null});
-    }
-    let cart = new Cart(req.session.cart);
-    res.render('shopping_cart', {articles: cart.generateArray(), totalPrice: cart.totalPrice})
-});
-
-//route files
+//routs
 let articles = require('./routes/articles');
 let users = require('./routes/users');
-let cartsRouter = require('./routes/carts');
+let carts = require('./routes/carts');
+let homePage = require('./routes/home');
+
 app.use('/articles', articles);
 app.use('/users', users);
-app.use('/articles/cart', cartsRouter);
+app.use('/cart', carts);
+app.use('/', homePage);
 
 
 

@@ -1,82 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
-
-//bring in user models
-let User = require('../models/user');
+const userValidator = require('./../app/validators/usersValidator');
+const usersComponents = require('./../app/components/usersComponents');
+const { check } = require('express-validator');
 
 // register form
-router.get('/register', function (req, res) {
-    res.render('register');
-});
+router.get('/register', usersComponents.registration);
 
 //register process
-router.post('/register', [
-        check('name').isLength({min:1}).trim().withMessage('Name is required'),
-        check('email').isLength({min:1}).trim().withMessage('Email is required'),
-        check('email').isLength({min:1}).isEmail().trim().withMessage('Email is not valid'),
-        check('username').isLength({min:1}).trim().withMessage('Username is required'),
-        check('password').isLength({min:1}).trim().withMessage('Password is required'),
-        check('password2').isLength({min:1}).trim().withMessage('Passwords do not match')
-    ],
-    function (req,res) {
-
-    let errors = validationResult(req);
-
-    if (!errors.isEmpty()){
-        console.log(errors);
-        res.render('register', {
-            errors: errors.mapped()
-        });
-    }else {
-        let newUser = new User();
-            newUser.name = req.body.name;
-            newUser.email = req.body.email;
-            newUser.username = req.body.username;
-            newUser.password = req.body.password;
-
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
-                if (err){
-                    console.log(err);
-                }
-                newUser.password = hash;
-                newUser.save(function (err) {
-                    if(err){
-                        console.log(err);
-                    }else {
-                        req.flash('success', 'You are now register and can log in');
-                        res.redirect('/users/login');
-                    }
-                })
-            });
-        });
-    }
-
-});
-
+router.post('/register', userValidator.validator, usersComponents.registerUser);
 
 //login form
-router.get('/login', function (req, res) {
-    res.render('login');
-});
+router.get('/login', usersComponents.loginForm);
 
 //login process
-router.post('/login', function (req, res, next) {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/users/login',
-        failureFlash: true
-    })(req,res,next);
-});
+router.post('/login', usersComponents.loginCheck);
 
 //logout
-router.get('/logout', function (req, res) {
-    req.logout();
-    req.flash('success', 'You are logged out');
-    res.redirect('/users/login');
-})
+router.get('/logout', usersComponents.logout);
 
 module.exports = router;
