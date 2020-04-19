@@ -5,11 +5,11 @@ block content
     // Page Content
 
 
-    .col-lg-3
-       h1.my-4 Amaze On
+    .col-lg-12
+       h1.my-4 Kolorowe PasteLOVE
+       h6 Internetowy sklep
 
-    // /.col-lg-3
-    .col-lg-9
+    .col-lg-12
        #carouselExampleIndicators.carousel.slide.my-4(data-ride='carousel')
            ol.carousel-indicators
                li.active(data-target='#carouselExampleIndicators', data-slide-to='0')
@@ -17,11 +17,11 @@ block content
                li(data-target='#carouselExampleIndicators', data-slide-to='2')
            .carousel-inner(role='listbox')
                .carousel-item.active
-                   img.d-block.img-fluid(src='/Amazon_logo.png', alt='First slide')
+                   img.d-block.img-fluid(src='/images/1.png', alt='First slide')
                .carousel-item
-                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='Second slide')
+                   img.d-block.img-fluid(src='/images/3.png', alt='Second slide')
                .carousel-item
-                   img.d-block.img-fluid(src='http://placehold.it/900x350', alt='Third slide')
+                   img.d-block.img-fluid(src='/images/2.png', alt='Third slide')
            a.carousel-control-prev(href='#carouselExampleIndicators', role='button', data-slide='prev')
                span.carousel-control-prev-icon(aria-hidden='true')
                span.sr-only Previous
@@ -37,15 +37,15 @@ block content
             each article, i in articles
                 .col.mb-4
                     .card
-                        img.card-img-top(src='data:image/png;base64,' +article.imagePath+'', alt='...', class='image-responsive')
+                        img.card-img-top.image-responsive(src='data:image/png;base64,' +article.imagePath+'', alt='...')
                         .card-body
                             h5=article.title
-                            .price=article.price
+                            .price=article.price+" PLN"
                             p=article.body
 
                             form(action='/cart/cart'+article.id+'', method='POST')
                                 input(hidden='', value=article.id, name='articleId')
-                                a.btn.btn-primary(href='cart/cart/'+article.id+'', type='button', class='mx-2')
+                                a.btn.btn-outline-dark(href='cart/cart/'+article.id+'', type='button', class='mx-2')
                                     i.fa.fa-shopping-cart
                                     |  Add to cart
 

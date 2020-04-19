@@ -3,8 +3,12 @@ let User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
-exports.registerUser = function (req,res) {
 
+exports.registration = function (req, res) {
+    res.render('register');
+};
+
+exports.registerUser = function (req,res) {
     let errors = validationResult.validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -56,6 +60,3 @@ exports.logout = function (req, res) {
     res.redirect('/users/login');
 };
 
-exports.registration = function (req, res) {
-    res.render('register');
-};

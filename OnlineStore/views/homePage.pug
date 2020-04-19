@@ -1,0 +1,66 @@
+.site-wrap
+    header.site-navbar(role='banner')
+        .site-navbar-top
+            .container
+                .row.align-items-center
+                    .col-6.col-md-4.order-2.order-md-1.site-search-icon.text-left
+                        form.site-block-top-search(action='')
+                            span.icon.icon-search2
+                            input.form-control.border-0(type='text', placeholder='Search')
+                    .col-12.mb-3.mb-md-0.col-md-4.order-1.order-md-2.text-center
+                        .site-logo
+                            a.js-logo-clone(href='index.html') Shoppers
+                    .col-6.col-md-4.order-3.order-md-3.text-right
+                        .site-top-icons
+                            ul
+                                li
+                                    a(href='#')
+                                        span.icon.icon-person
+                                li
+                                    a(href='#')
+                                        span.icon.icon-heart-o
+                                li
+                                    a.site-cart(href='cart.html')
+                                        span.icon.icon-shopping_cart
+                                        span.count 2
+                                li.d-inline-block.d-md-none.ml-md-0
+                                    a.site-menu-toggle.js-menu-toggle(href='#')
+                                        span.icon-menu
+        nav.site-navigation.text-right.text-md-center(role='navigation')
+            .container
+                ul.site-menu.js-clone-nav.d-none.d-md-block
+                    li.has-children.active
+                        a(href='index.html') Home
+                        ul.dropdown
+                            li
+                                a(href='#') Menu One
+                            li
+                                a(href='#') Menu Two
+                            li
+                                a(href='#') Menu Three
+                            li.has-children
+                                a(href='#') Sub Menu
+                                ul.dropdown
+                                    li
+                                        a(href='#') Menu One
+                                    li
+                                        a(href='#') Menu Two
+                                    li
+                                        a(href='#') Menu Three
+                    li.has-children
+                        a(href='about.html') About
+                        ul.dropdown
+                            li
+                                a(href='#') Menu One
+                            li
+                                a(href='#') Menu Two
+                            li
+                                a(href='#') Menu Three
+                    li
+                        a(href='shop.html') Shop
+                    li
+                        a(href='#') Catalogue
+                    li
+                        a(href='#') New Arrivals
+                    li
+                        a(href='contact.html') Contact

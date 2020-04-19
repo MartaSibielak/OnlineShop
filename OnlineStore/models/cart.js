@@ -1,27 +1,3 @@
-let mongoose = require('mongoose');
-
-let cartSchema = mongoose.Schema({
-    id: {
-        type: String,
-        required: true
-    },
-    items: [
-        {
-            id:{
-                type: String,
-                required: true
-            },
-            quantity:{
-                type: Number,
-                required:true
-            }
-        }
-    ]
-});
-
-let Article = module.exports = mongoose.model('Cart', cartSchema);
-
-
 module.exports = function Cart(oldCart) {
     this.items = oldCart.items || {};
     this.totalQty = oldCart.totalQty || 0;

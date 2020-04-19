@@ -12,8 +12,9 @@ html
 
         body
             // Navigation
-            nav.navbar.navbar-expand-md.navbar-dark.bg-dark
-                a.navbar-brand(href='#') Online Store
+            nav.navbar.navbar-expand-md.navbar-light.bg-light(style='background-color: #e3f2fd;')
+                a.navbar-brand(href='#')
+                    img(src='images/logo.png', height=50, width=120, alt='')
 
                 button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
                     span.navbar-toggler-icon
@@ -45,6 +46,10 @@ html
                                 a.nav-link(href='/users/login') Login &nbsp;
                                     i.fas.fa-sign-in-alt
 
+
+
+
+
             .container
                 != messages('message', locals)
                 if errors
@@ -52,9 +57,40 @@ html
                         div(class="alert alert-danger") #{error.msg}
                 block content
                     br
+                    br
                     hr
-                footer
-                    p Copyright &copy; 2020
+                // Footer
+                footer.page-footer.font-small.cyan.darken-3
+                    // Footer Elements
+                    .container
+                        // Grid row
+                        .row
+                            // Grid column
+                            .col-md-12.py-5
+                                .mb-5.flex-center
+                                    // Facebook
+                                    a.fb-ic
+                                        i.fab.fa-facebook-f.fa-lg.white-text.mr-md-5.mr-3
+                                    // Twitter
+                                    a.tw-ic
+                                        i.fab.fa-twitter.fa-lg.white-text.mr-md-5.mr-3
+                                    // Google +
+                                    a.gplus-ic
+                                        i.fab.fa-google-plus-g.fa-lg.white-text.mr-md-5.mr-3
+                                    // Linkedin
+                                    a.li-ic
+                                        i.fab.fa-linkedin-in.fa-lg.white-text.mr-md-5.mr-3
+                                    // Instagram
+                                    a.ins-ic
+                                        i.fab.fa-instagram.fa-lg.white-text.mr-md-5.mr-3
+                                    // Pinterest
+                                    a.pin-ic
+                                        i.fab.fa-pinterest.fa-lg.white-text
+
+                            .footer-copyright.text-center.py-3
+                                | © 2020 Copyright
+
+
             script(src='/bower_components/jquery/jquery.js')
             script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
             script(src='/js/main.js')
