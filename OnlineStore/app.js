@@ -87,7 +87,7 @@ app.use('/', homePage);
 
 
 //start server
-const port = 3001;
+const port = 3000;
 app.listen(port, function () {
     console.log(`server start on port ${port}...`)
 });
